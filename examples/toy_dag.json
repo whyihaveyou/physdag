@@ -1,0 +1,57 @@
+{
+  "meta": {
+    "title": "toy-square-identities",
+    "description": "自包含示例: 从二项展开公理推出平方和与平方差恒等式 (纯 sympy/sympy_eq, 不依赖 LLM/wolfram/数值数据)"
+  },
+  "nodes": [
+    {"id": "axiom_expand", "statement": "公理: 对任意实数 a,b, 平方展开 (a+b)² = a² + 2ab + b²"},
+    {"id": "diff_identity", "statement": "对任意实数 a,b: (a+b)² - (a-b)² = 4ab"},
+    {"id": "sum_identity", "statement": "对任意实数 a,b: (a+b)² + (a-b)² = 2(a² + b²)"},
+    {"id": "numeric_case", "statement": "特例 a=b=1: (1+1)² = 4 = 1 + 2 + 1"}
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": ["axiom_expand"],
+      "to": "diff_identity",
+      "type": "deductive",
+      "method": "代数展开",
+      "justification": "(a-b)² = a² - 2ab + b² 由公理把 b 换成 -b 即得, 两式相减消去 a²+b² 得 4ab",
+      "check": {
+        "kind": "sympy_eq",
+        "symbols": "a, b = sp.symbols('a b')",
+        "lhs": "(a+b)**2 - (a-b)**2",
+        "rhs": "4*a*b",
+        "coverage": "full"
+      }
+    },
+    {
+      "id": "e2",
+      "from": ["axiom_expand"],
+      "to": "sum_identity",
+      "type": "deductive",
+      "method": "代数展开",
+      "justification": "两式相加, 交叉项 ±2ab 抵消, 得 2(a²+b²)",
+      "check": {
+        "kind": "sympy_eq",
+        "symbols": "a, b = sp.symbols('a b')",
+        "lhs": "(a+b)**2 + (a-b)**2",
+        "rhs": "2*(a**2 + b**2)",
+        "coverage": "full"
+      }
+    },
+    {
+      "id": "e3",
+      "from": ["axiom_expand"],
+      "to": "numeric_case",
+      "type": "deductive",
+      "method": "代入验证",
+      "justification": "将 a=b=1 代入公理两边分别计算, 均为 4",
+      "check": {
+        "kind": "sympy",
+        "snippet": "assert (1+1)**2 == 1**2 + 2*1*1 + 1**2",
+        "coverage": "special-case"
+      }
+    }
+  ]
+}

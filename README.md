@@ -1,4 +1,4 @@
-# ProofDAG
+# PhysDAG
 
 **把物理/数学推导变成一张可机器验证的有向无环图（DAG），用多条独立通道逐边检验，让"验证推导"不再有漏洞可钻。**
 
@@ -24,7 +24,7 @@
 
 ## 为什么不是"跑个 SymPy 就完了"
 
-因为验证系统会糊弄自己，而且方式很有规律。ProofDAG 内置三道防线（详见[方法论](docs/methodology.md)）：
+因为验证系统会糊弄自己，而且方式很有规律。PhysDAG 内置三道防线（详见[方法论](docs/methodology.md)）：
 
 1. **变异测试**——把结论改错一个符号，check 必须失败；不炸的就是假 check（`or True`、`abs(x-x)`、shape-only 静态扫描直接判死）
 2. **coverage 标注**——每条边强制标注 `full / sampled / special-case`，特例冒充不了全验，校验器每轮单列弱覆盖边
@@ -101,7 +101,7 @@ Wolfram 通道：`export DAG_WOLFRAMSCRIPT=/path/to/wolframscript`（或放入 P
 
 ## 出身
 
-ProofDAG 从五条真实理论物理推导链（chimera 精确解 PRL 2004、Ott-Antonsen
+PhysDAG 从五条真实理论物理推导链（chimera 精确解 PRL 2004、Ott-Antonsen
 降维 Chaos 2008、D 维复杂度约化 Chaos 2019、PRX 2019 奇/偶 D 相变理论）
 的机器验证中打磨出来。它抓到过：论文复现中的 Z/Z* 系统性交换错误、
 缺失的推导边、被弱化的形式化命题、以及若干个"看起来像验证"的假 check。
